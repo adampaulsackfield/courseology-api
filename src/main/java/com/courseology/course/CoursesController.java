@@ -1,5 +1,7 @@
 package com.courseology.course;
 
+import com.courseology.enrollment.EnrollmentsRepository;
+import com.courseology.enrollment.EnrollmentsService;
 import com.courseology.exception.CustomException;
 import com.courseology.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,15 @@ import java.util.List;
 public class CoursesController {
     private CoursesService coursesService;
     private final CoursesRepository coursesRepository;
+    private final EnrollmentsService enrollmentsService;
 
     @Autowired
     public CoursesController(CoursesService coursesService,
-                             CoursesRepository coursesRepository) {
+                             CoursesRepository coursesRepository,
+                             EnrollmentsRepository enrollmentsRepository, EnrollmentsService enrollmentsService) {
         this.coursesService = coursesService;
         this.coursesRepository = coursesRepository;
+        this.enrollmentsService = enrollmentsService;
     }
 
     @ExceptionHandler
@@ -52,5 +57,11 @@ public class CoursesController {
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(coursesService.getCourseById(id));
+    }
+
+    // GET - Enrol in a course - /course/enroll/{id}
+    @GetMapping("/enroll/{id}")
+    public ResponseEntity<String> enrollCourse(@PathVariable long id, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.status(HttpStatus.OK).body(enrollmentsService.enrollCourse(id, token));
     }
 }

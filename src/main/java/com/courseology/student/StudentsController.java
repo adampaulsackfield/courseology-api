@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.Data;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/student")
 //@CrossOrigin(origins = "http://localhost:3000")
