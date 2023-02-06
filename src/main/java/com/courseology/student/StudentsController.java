@@ -2,17 +2,16 @@ package com.courseology.student;
 
 import com.courseology.exception.CustomException;
 import com.courseology.exception.NotFoundException;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.Data;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "/student")
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentsController {
     StudentsService studentsService;
 
@@ -49,7 +48,7 @@ public class StudentsController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<Student> getProfile(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.status(HttpStatus.OK).body(studentsService.getProfile(token));
+    public ResponseEntity<Student> getProfile(@RequestAttribute("claims") Claims claims) {
+        return ResponseEntity.status(HttpStatus.OK).body(studentsService.getProfile(claims.getSubject()));
     }
 }

@@ -1,7 +1,5 @@
 package com.courseology.course;
 
-import com.courseology.enrollment.EnrollmentsRepository;
-import com.courseology.enrollment.EnrollmentsService;
 import com.courseology.exception.CustomException;
 import com.courseology.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/course")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CoursesController {
-    private CoursesService coursesService;
-    private final CoursesRepository coursesRepository;
-    private final EnrollmentsService enrollmentsService;
+    private final CoursesService coursesService;
 
     @Autowired
-    public CoursesController(CoursesService coursesService,
-                             CoursesRepository coursesRepository,
-                             EnrollmentsRepository enrollmentsRepository, EnrollmentsService enrollmentsService) {
+    public CoursesController(CoursesService coursesService) {
         this.coursesService = coursesService;
-        this.coursesRepository = coursesRepository;
-        this.enrollmentsService = enrollmentsService;
     }
 
     @ExceptionHandler
@@ -57,11 +50,5 @@ public class CoursesController {
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(coursesService.getCourseById(id));
-    }
-
-    // GET - Enrol in a course - /course/enroll/{id}
-    @GetMapping("/enroll/{id}")
-    public ResponseEntity<String> enrollCourse(@PathVariable long id, @RequestHeader("Authorization") String token) {
-        return ResponseEntity.status(HttpStatus.OK).body(enrollmentsService.enrollCourse(id, token));
     }
 }

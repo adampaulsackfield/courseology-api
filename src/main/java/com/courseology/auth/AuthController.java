@@ -1,19 +1,18 @@
 package com.courseology.auth;
 
+import org.springframework.context.annotation.Configuration;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.context.annotation.Configuration;
 
-import java.security.Key;
 import java.util.Date;
 
 @Configuration
 public class AuthController {
-    private final long EXPIRATION_TIME = 864_000_000; // 10 Days
-    private final Key SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    protected final long EXPIRATION_TIME = 864_000_000; // 10 Days
+    private final String SECRET = "6351665468576D5A7134743777217A25432A462D4A614E645267556B586E3272357538782F413F4428472B4B6250655368566D59713373367639792442264529";
     private final String TOKEN_PREFIX = "Bearer ";
 
     public String generateToken(String email) {
@@ -25,8 +24,7 @@ public class AuthController {
 
     public Claims validateToken(String token) {
         try {
-            Claims claims = Jwts.parserBuilder().setSigningKey(SECRET).build().parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody();
-            return claims;
+            return Jwts.parserBuilder().setSigningKey(SECRET).build().parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody();
         } catch (JwtException exception) {
             return null;
         }

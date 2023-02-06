@@ -1,8 +1,8 @@
 package com.courseology.enrollment;
 
-import com.courseology.course.CoursesRepository;
-import com.courseology.course.CoursesService;
-import com.courseology.student.Student;
+import com.courseology.exception.CustomException;
+import com.courseology.exception.NotFoundException;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,23 @@ public class EnrollmentsController {
         this.enrollmentsService = enrollmentsService;
     }
 
+    @ExceptionHandler
+    public ResponseEntity<String> handleExceptions(NotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handleExceptions(CustomException exception) {
+        return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<String> enrollCourse(@PathVariable long id, @RequestHeader("Authorization") String token) {
-        return ResponseEntity.status(HttpStatus.OK).body(enrollmentsService.enrollCourse(id, token));
+    public ResponseEntity<String> enrollCourse(@PathVariable long id, @RequestAttribute("claims") Claims claims) {
+        return ResponseEntity.status(HttpStatus.OK).body(enrollmentsService.enrollCourse(id, claims.getSubject()));
     }
 
     @GetMapping
-    public ResponseEntity<List<Object[]>> getEnrollments(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.status(HttpStatus.OK).body(enrollmentsService.getEnrollments(token));
+    public ResponseEntity<List<Object[]>> getEnrollments(@RequestAttribute("claims") Claims claims) {
+        return ResponseEntity.status(HttpStatus.OK).body(enrollmentsService.getEnrollments(claims.getSubject()));
     }
 }

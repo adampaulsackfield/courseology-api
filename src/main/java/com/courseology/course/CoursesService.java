@@ -1,9 +1,7 @@
 package com.courseology.course;
 
-import com.courseology.auth.AuthController;
 import com.courseology.exception.CustomException;
 import com.courseology.exception.NotFoundException;
-import com.courseology.student.StudentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CoursesService {
-    private CoursesRepository coursesRepository;
+    private final CoursesRepository coursesRepository;
 
     @Autowired
     public CoursesService(CoursesRepository coursesRepository) {

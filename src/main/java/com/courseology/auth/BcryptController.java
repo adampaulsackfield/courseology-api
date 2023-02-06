@@ -13,16 +13,6 @@ public class BcryptController {
         this.passwordEncoder = passwordEncoder;
     }
 
-//    @GetMapping("/encode")
-//    public ResponseEntity<String> hashPassword(@RequestHeader String password) {
-//        return new ResponseEntity<>(passwordEncoder.encode(password), HttpStatus.OK);
-//    }
-
-//    @GetMapping("/matches")
-//    public ResponseEntity<Boolean> passwordMatch(@RequestBody BCryptDomain bCryptDomain) {
-//        return new ResponseEntity<>(passwordEncoder.matches(bCryptDomain.getPassword(), bCryptDomain.getPasswordEncoded()), HttpStatus.OK);
-//    }
-
     public String hashPassword(String password) {
         return passwordEncoder.encode(password);
     }
