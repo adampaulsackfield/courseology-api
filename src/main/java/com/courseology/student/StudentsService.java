@@ -2,7 +2,6 @@ package com.courseology.student;
 
 import com.courseology.auth.AuthController;
 import com.courseology.auth.BcryptController;
-import com.courseology.enrollment.EnrollmentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

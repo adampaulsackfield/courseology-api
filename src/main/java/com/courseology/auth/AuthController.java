@@ -21,12 +21,4 @@ public class AuthController {
 
         return TOKEN_PREFIX + jwt;
     }
-
-    public Claims validateToken(String token) {
-        try {
-            return Jwts.parserBuilder().setSigningKey(SECRET).build().parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody();
-        } catch (JwtException exception) {
-            return null;
-        }
-    }
 }

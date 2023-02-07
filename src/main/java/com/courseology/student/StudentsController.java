@@ -11,7 +11,6 @@ import lombok.Data;
 
 @RestController
 @RequestMapping(value = "/student")
-@CrossOrigin(origins = "http://localhost:3000")
 public class StudentsController {
     StudentsService studentsService;
 
