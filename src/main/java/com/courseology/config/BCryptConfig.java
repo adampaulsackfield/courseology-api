@@ -1,4 +1,4 @@
-package com.courseology.auth;
+package com.courseology.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

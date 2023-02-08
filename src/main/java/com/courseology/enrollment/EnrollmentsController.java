@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/enrollment")
@@ -36,7 +37,7 @@ public class EnrollmentsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Object[]>> getEnrollments(@RequestAttribute("claims") Claims claims) {
+    public ResponseEntity<List<Map<String, Object>>> getEnrollments(@RequestAttribute("claims") Claims claims) {
         return ResponseEntity.status(HttpStatus.OK).body(enrollmentsService.getEnrollments(claims.getSubject()));
     }
 }

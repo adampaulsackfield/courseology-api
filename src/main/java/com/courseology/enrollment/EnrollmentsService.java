@@ -4,7 +4,10 @@ import com.courseology.student.Student;
 import com.courseology.student.StudentsRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EnrollmentsService {
@@ -29,10 +32,20 @@ public class EnrollmentsService {
             return "Success";
     }
 
-    public List<Object[]> getEnrollments(String email) {
+    public List<Map<String, Object>> getEnrollments(String email) {
         Student foundStudent = studentsRepository.getStudentByEmail(email);
 
-        return enrollmentsRepository.getEnrollments(foundStudent.getId());
+        List<Map<String, Object>> result = new ArrayList<>();
+        List<Object[]> queryResult = enrollmentsRepository.getEnrollments(foundStudent.getId());
+        for (Object[] objects : queryResult) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", objects[0]);
+            map.put("syllabus", objects[1]);
+            map.put("author", objects[2]);
+            result.add(map);
+        }
+
+        return result;
     }
 }
 

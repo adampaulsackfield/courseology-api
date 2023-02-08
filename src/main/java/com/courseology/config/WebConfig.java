@@ -1,5 +1,7 @@
-package com.courseology.auth;
+package com.courseology.config;
 
+import com.courseology.interceptor.CorsInterceptor;
+import com.courseology.interceptor.JwtInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -13,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public  CorsInterceptor corsInterceptor() { return new CorsInterceptor(); }
+    public CorsInterceptor corsInterceptor() { return new CorsInterceptor(); }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

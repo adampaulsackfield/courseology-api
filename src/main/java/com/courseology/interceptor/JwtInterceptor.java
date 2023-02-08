@@ -1,4 +1,4 @@
-package com.courseology.auth;
+package com.courseology.interceptor;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.security.SignatureException;
 
 @CrossOrigin(origins = "http://localhost:3000")
 public class JwtInterceptor implements HandlerInterceptor {
@@ -23,11 +25,19 @@ public class JwtInterceptor implements HandlerInterceptor {
         // Extract the JWT from the authorization header
         String jwt = authorizationHeader.substring("Bearer ".length());
 
-        // Verify the JWT and extract the claims
-        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(jwt).getBody();
+        try {
+            // Verify the JWT and extract the claims
+            Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(jwt).getBody();
 
-        // Store the claims in the request so that they can be used later
-        request.setAttribute("claims", claims);
+            // Store the claims in the request so that they can be used later
+            request.setAttribute("claims", claims);
+        } catch(Exception exception) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT Signature");
+            return false;
+        }
+
+
+
 
         return true;
     }

@@ -2,7 +2,9 @@ package com.courseology.student;
 
 import com.courseology.auth.AuthController;
 import com.courseology.auth.BcryptController;
+import com.courseology.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +21,9 @@ public class StudentsService {
 
     // CREATE
     public void addStudent(Student student) {
+        if(student.getName() == null || student.getEmail() == null |student.getPassword() == null) {
+            throw new CustomException(HttpStatus.BAD_REQUEST, "Missing Fields");
+        }
         String hashedPassword = bcryptController.hashPassword(student.getPassword());
         student.setPassword(hashedPassword);
 
@@ -29,12 +34,16 @@ public class StudentsService {
     public String loginStudent(String email, String password) {
         Student foundStudent = studentsRepository.getStudentByEmail(email);
 
+        if(foundStudent == null) {
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "Incorrect login details");
+        }
+
         boolean isVerified = bcryptController.verifyPassword(password, foundStudent.getPassword());
 
         if(isVerified) {
             return authController.generateToken(email);
         } else {
-            return "Failed to create JWT";
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "Incorrect login details");
         }
     }
 
