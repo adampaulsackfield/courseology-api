@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface EnrollmentsRepository extends JpaRepository<Enrollment, Long> {
-    @Query(value = "SELECT course.name, course.syllabus, course.author FROM student JOIN enrollment ON student.id = enrollment.student_id JOIN course ON course.id = enrollment.course_id WHERE student.id = :studentId", nativeQuery = true)
+    @Query(value = "SELECT course.name, course.syllabus, course.author, enrollment.id FROM student JOIN enrollment ON student.id = enrollment.student_id JOIN course ON course.id = enrollment.course_id WHERE student.id = :studentId", nativeQuery = true)
     List<Object[]> getEnrollments(@Param("studentId") Long studentId);
 }

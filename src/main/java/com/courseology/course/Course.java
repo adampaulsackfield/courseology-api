@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.json.simple.JSONObject;
 
 @Entity
 public class Course {
@@ -15,18 +16,47 @@ public class Course {
     private double price;
     private String syllabus;
     private String author;
+    private double rating;
+    private int duration;
+    private String level;
 
     public Course() {
 
     }
 
-    public Course(Long id, String name, String category, double price, String syllabus, String author) {
+    public Course(Long id, String name, String category, String syllabus, String author, double rating, int duration, String level) {
         this.id = id;
         this.name = name;
         this.category = category;
-        this.price = price;
         this.syllabus = syllabus;
         this.author = author;
+        this.rating = rating;
+        this.duration = duration;
+        this.level = level;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public long getId() {

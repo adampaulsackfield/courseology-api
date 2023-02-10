@@ -20,6 +20,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(corsInterceptor()).addPathPatterns("/**");
-        registry.addInterceptor(jwtInterceptor()).addPathPatterns("/student/profile").addPathPatterns("/enrollment");
+        registry.addInterceptor(jwtInterceptor()).addPathPatterns("/student/profile").addPathPatterns("/enrollment/**");
     }
 }

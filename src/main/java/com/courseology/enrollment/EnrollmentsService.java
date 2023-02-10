@@ -42,6 +42,7 @@ public class EnrollmentsService {
             map.put("name", objects[0]);
             map.put("syllabus", objects[1]);
             map.put("author", objects[2]);
+            map.put("id", objects[3]);
             result.add(map);
         }
 
